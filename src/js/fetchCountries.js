@@ -3,3 +3,4 @@ export default function fetchCountries(searchQuery) {
     (res) => res.json(),
   );
 }
+// asdasd
