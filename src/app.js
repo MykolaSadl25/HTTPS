@@ -1,44 +1,34 @@
-import {
-  alert,
-  notice,
-  info,
-  success,
-  error,
-  defaultModules,
-} from "@pnotify/core/dist/PNotify.js";
-import * as PNotifyMobile from "@pnotify/mobile/dist/PNotifyMobile.js";
-import "@pnotify/core/dist/BrightTheme.css";
-import "@pnotify/core/dist/PNotify.css";
-defaultModules.set(PNotifyMobile, {});
-import fetchCountries from "./js/fetchCountries";
-import createItems from "./js/createItems";
 import debounce from "lodash.debounce";
-import createCountryList from "./js/createCountryList";
 
-let searchQuery = "";
+const listRef = document.querySelector(".list");
+const inputRef = document.querySelector("input");
 
-const countryInputRef = document.querySelector(".enterCountry");
-const countryInfoBoxRef = document.querySelector(".countryInfo");
+let searchQuery = "cat";
 
-countryInputRef.addEventListener(
-  "input",
-  debounce((e) => {
-    searchQuery = e.target.value;
-    fetchCountries(searchQuery)
-      .then((res) => {
-        if (res.length > 10) {
-          error({
-            title: "Request is not clear",
-            text: "Too many matches found. Please enter a more specific query",
-          });
-        } else if (res.length > 2 && res.length < 10) {
-          countryInfoBoxRef.innerHTML = createCountryList(res);
-        } else {
-          countryInfoBoxRef.innerHTML = createItems(res);
-        }
-      })
-      .catch((error) => error);
-  }, 500),
-);
+function getPictures(search) {
+  return fetch(
+    `https://pixabay.com/api/?key=55978698-0d602613e63391cce9d7defd1&image_type=photo&q=${searchQuery}`).then((res) => res.json());
+}
 
-// dsadasd
+
+inputRef.addEventListener("input",debounce((e)=>{
+  searchQuery = e.target.value;
+  getPictures(searchQuery).then((res) => createItems(res.hits));
+},500))
+
+
+function createItems(array) {
+  const item = array.map(({largeImageURL, tags, name, downloads, comments,views,likes,user}) => {
+    return `<li>
+  <img class="image" src="${largeImageURL}" alt="${name}">
+  <ul>
+    <li>Downloads:${downloads}</li>
+    <li>Comments:${comments}</li>
+    <li>Views:${views}</li>
+    <li>Likes:${likes}</li>
+  </ul>
+  <p>Created by:${user}</p>
+</li>`;
+  }).join("");
+listRef.innerHTML = item;
+}
