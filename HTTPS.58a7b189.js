@@ -1,0 +1,11 @@
+var t,e="u">typeof globalThis?globalThis:"u">typeof self?self:"u">typeof window?window:"u">typeof global?global:{},i={},n=0/0,o=/^\s+|\s+$/g,r=/^[-+]0x[0-9a-f]+$/i,u=/^0b[01]+$/i,a=/^0o[0-7]+$/i,l=parseInt,f="object"==typeof e&&e&&e.Object===Object&&e,c="object"==typeof self&&self&&self.Object===Object&&self,s=f||c||Function("return this")(),p=Object.prototype.toString,d=Math.max,m=Math.min,y=function(){return s.Date.now()};function v(t){var e=typeof t;return!!t&&("object"==e||"function"==e)}function b(t){if("number"==typeof t)return t;if("symbol"==typeof(e=t)||e&&"object"==typeof e&&"[object Symbol]"==p.call(e))return n;if(v(t)){var e,i="function"==typeof t.valueOf?t.valueOf():t;t=v(i)?i+"":i}if("string"!=typeof t)return 0===t?t:+t;t=t.replace(o,"");var f=u.test(t);return f||a.test(t)?l(t.slice(2),f?2:8):r.test(t)?n:+t}i=function(t,e,i){var n,o,r,u,a,l,f=0,c=!1,s=!1,p=!0;if("function"!=typeof t)throw TypeError("Expected a function");function g(e){var i=n,r=o;return n=o=void 0,f=e,u=t.apply(r,i)}function h(t){var i=t-l,n=t-f;return void 0===l||i>=e||i<0||s&&n>=r}function j(){var t,i,n,o=y();if(h(o))return $(o);a=setTimeout(j,(t=o-l,i=o-f,n=e-t,s?m(n,r-i):n))}function $(t){return(a=void 0,p&&n)?g(t):(n=o=void 0,u)}function w(){var t,i=y(),r=h(i);if(n=arguments,o=this,l=i,r){if(void 0===a)return f=t=l,a=setTimeout(j,e),c?g(t):u;if(s)return a=setTimeout(j,e),g(l)}return void 0===a&&(a=setTimeout(j,e)),u}return e=b(e)||0,v(i)&&(c=!!i.leading,r=(s="maxWait"in i)?d(b(i.maxWait)||0,e):r,p="trailing"in i?!!i.trailing:p),w.cancel=function(){void 0!==a&&clearTimeout(a),f=0,n=l=o=a=void 0},w.flush=function(){return void 0===a?u:$(y())},w};let g=document.querySelector(".list"),h=document.querySelector("input"),j="cat";h.addEventListener("input",((t=i)&&t.__esModule?t.default:t)(t=>{j=t.target.value,fetch(`https://pixabay.com/api/?key=55978698-0d602613e63391cce9d7defd1&image_type=photo&q=${j}`).then(t=>t.json()).then(t=>{g.innerHTML=t.hits.map(({largeImageURL:t,tags:e,name:i,downloads:n,comments:o,views:r,likes:u,user:a})=>`<li>
+  <img class="image" src="${t}" alt="${i}">
+  <ul>
+    <li>Downloads:${n}</li>
+    <li>Comments:${o}</li>
+    <li>Views:${r}</li>
+    <li>Likes:${u}</li>
+  </ul>
+  <p>Created by:${a}</p>
+</li>`).join("")})},500));
+//# sourceMappingURL=HTTPS.58a7b189.js.map
